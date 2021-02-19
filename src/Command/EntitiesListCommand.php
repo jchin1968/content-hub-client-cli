@@ -28,7 +28,7 @@ class EntitiesListCommand extends Command
             )
             ->addOption(
                'start',
-               'o',
+               's',
                InputOption::VALUE_OPTIONAL,
                'Offset to start from.',
                0
@@ -37,8 +37,15 @@ class EntitiesListCommand extends Command
                'type',
                't',
                InputOption::VALUE_OPTIONAL,
-               'The type of entity to retrieve',
+               'The type of entity to retrieve. Possible values include: rendered_entity, drupal8_content_entity, drupal8_config_entity, client.',
                ''
+            )
+            ->addOption(
+                'origin',
+                'o',
+                InputOption::VALUE_OPTIONAL,
+                'Filter by the entity origin UUID.',
+                ''
             )
         ;
     }
@@ -52,6 +59,7 @@ class EntitiesListCommand extends Command
           'start' => $input->getOption('start'),
           'fields' => 'bundle,bundle_label,entity_type,entity_type_label,language,view_mode',
           'type' => $input->getOption('type'),
+          'origin' => $input->getOption('origin'),
         ];
 
         $client = $config->loadClient();
