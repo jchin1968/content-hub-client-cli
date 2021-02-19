@@ -76,13 +76,13 @@ class EntitiesListCommand extends Command
           $bundle = $cdf_data['attributes']['bundle']['und'] ?? '';
           $bundle_label = $cdf_data['attributes']['bundle_label']['und'] ?? '';
 
-
           $rows[] = [
             'uuid' => $cdf_data['uuid'],
             'type' => $cdf_data['type'],
             'version' => $version,
             'entity_type' => $entity_type,
             'bundle' => $bundle,
+            'origin' => $cdf_data['origin'],
           ];
         }
 
