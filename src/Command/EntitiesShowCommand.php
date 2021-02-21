@@ -38,8 +38,11 @@ class EntitiesShowCommand extends Command
           ksort($entity['attributes']);
         }
 
-        $dumper = new Dumper();
-        $output->writeln($dumper->dump($entity['data']['data'], 10, 2));
+        // Dump results only if entity record is found.
+        if (!empty($entity['data']['data'])) {
+          $dumper = new Dumper();
+          $output->writeln($dumper->dump($entity['data']['data'], 10, 2));
+        }
     }
 
 }
