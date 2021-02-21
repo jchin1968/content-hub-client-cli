@@ -110,16 +110,20 @@ class EntitiesListCommand extends Command
           ];
         }
 
-        $table = new Table($output);
-        $table
-            ->setHeaders(array_keys(reset($rows)))
-            ->setRows($rows)
-        ;
-        if (count($rows)) {
-          $table->render();
-        }
+        if (empty($rows)) {
+          $output->writeln('<error> No record found!</error>');
+        } else {
+            $table = new Table($output);
+            $table
+                ->setHeaders(array_keys(reset($rows)))
+                ->setRows($rows)
+            ;
+            if (count($rows)) {
+                $table->render();
+            }
 
-        $output->writeln('<info> Total records: ' . $entities['total'] . '</info>');
+            $output->writeln('<info> Total records: ' . $entities['total'] . '</info>');
+        }
     }
 
 }
