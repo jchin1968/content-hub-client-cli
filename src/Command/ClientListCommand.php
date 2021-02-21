@@ -25,8 +25,7 @@ class ClientListCommand extends Command
         $config = ClientConfig::loadFromInput($input, $output);
 
         $client = $config->loadClient();
-        $settings = $client->getSettings();
-        $list = $settings->getClients();
+        $list = $client->getClients();
 
         $table = new Table($output);
         $table
