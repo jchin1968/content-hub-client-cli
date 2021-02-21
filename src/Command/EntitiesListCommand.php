@@ -37,7 +37,7 @@ class EntitiesListCommand extends Command
                'type',
                't',
                InputOption::VALUE_OPTIONAL,
-               'The type of entity to retrieve. Possible values include: rendered_entity, drupal8_content_entity, drupal8_config_entity, client.',
+               'The type of entity to retrieve. Supported values include: rendered_entity, drupal8_content_entity, drupal8_config_entity, client.',
                ''
             )
             ->addOption(
@@ -47,6 +47,13 @@ class EntitiesListCommand extends Command
                 'Filter by the entity origin UUID.',
                 ''
             )
+            ->addOption(
+                'filters',
+                'f',
+                InputOption::VALUE_OPTIONAL,
+                'Filter by the entity attributes. Supported attributes include: entity_type, bundle',
+                ''
+            )
         ;
     }
 
@@ -54,12 +61,21 @@ class EntitiesListCommand extends Command
     {
         $config = ClientConfig::loadFromInput($input, $output);
 
+        // Convert filter input string into an associative array.
+        $filters = [];
+        if (!empty($filter_input = $input->getOption('filters'))) {
+          foreach (explode(',', $filter_input) as $filter) {
+            $filters[strstr($filter, '=', true)] = trim(strstr($filter, '='), '=');
+          }
+        }
+
         $options = [
           'limit' => $input->getOption('limit'),
           'start' => $input->getOption('start'),
           'fields' => 'bundle,bundle_label,entity_type,entity_type_label,language,view_mode',
           'type' => $input->getOption('type'),
           'origin' => $input->getOption('origin'),
+          'filters' => $filters,
         ];
 
         $client = $config->loadClient();
